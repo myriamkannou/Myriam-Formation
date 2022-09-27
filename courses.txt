@@ -1,0 +1,340 @@
+voir sur internet jhipster.
+docker
+*/*/*/(les concours de recrutements)
+devops : 
+
+si il y a un changement dans git hub ( push) il envoie une notif a "jenkins" , la ou il y a un docker
+il va gener un docker ( une machine qui contient du java ... sur ma machine ,comme une machine virtuelle )
+il va modifier kubernate , qui va installer des ecd ou i l va mettre dedans des docker.
+clifcash? 
+
+
+/*/*/*AZ900 **** certification (cloud) 
+
+agile : 
+ -scrum 
+ -kanban (tdd :  test driver deployment)
+java unit test 
+ 
+findall recuperer de l'heritaeg de crud dans repository
+
+cors : un probleme de securite , personne ne peut acceder a ton serveur.
+architecture du front : (en module)
+
+
+
+
+
+ngOnInit ? 
+
+
+///////////////
+tech seeker
+
+comment on fait passer les param entre les composants (components) 
+une qst de recrutement ( par le point this.route.paramMap.subscribe(param))
+qu'est ce qu'un module ?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(target) java -jar helloworld-0.0.1-snapshot.jar
+
+la propriété pour activer la console de visualisation de la base de données
+
+
+charger un driver de base de données (le driver MySQL, par exemple) ;
+
+créer différents objets (comme java.sql.Connection) ;
+
+manipuler tous ces objets dans le bon ordre ;
+
+gérer les exceptions, etc. 
+
+Mais Spring Framework va nous permettre de résoudre tout ça en quelques
+ lignes ! Non pas en quelques lignes de code, mais de configuration !
+ Pour cela, il nous suffit d’utiliser les bons composants Spring 
+(j’y reviendrai dans le prochain chapitre) et le bon fichier de configuration :
+
+spring.datasource.url=jdbc:mysql://localhost/test
+
+spring.datasource.username=dbuser
+
+spring.datasource.password=dbpass
+
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+
+
+des composants pour gérer une multitude d’aspects, comme par exemple 
+interagir avec des bases de données, ou traiter des requêtes HTTP.
+
+////////////////////////////////////////////////////////////////
+Manipulez des beans
+Et les packages service et model, à quoi servent-ils ?
+
+Nous ne nous sommes pas servi de ces packages car ils n’étaient pas utiles
+ pour notre premier Hello World, mais ils le seront pour la suite ! À titre
+ d'entraînement et pour vous faire découvrir d’autres notions importantes, 
+je vous propose d’écrire quelques classes supplémentaires :
+
+une classe HelloWorld.java qui contient un attribut nommé value de type String.
+ Cette classe fait office d’objet métier, et doit être dans le package model.
+ L’attribut value doit contenir le texte “Hello World!”. On ajoute également une 
+méthode toString à cette classe, qui doit retourner le contenu de l’attribut value;
+
+une classe BusinessService.java qui contient une méthode dont le prototype 
+est “public HelloWorld getHelloWorld()”. Cette méthode doit instancier un objet 
+HelloWorld, et le retourner.
+Attention, la classe BusinessService.java doit être déclarée en tant 
+que bean dans le context Spring. J’en appelle à votre mémoire : comment fait-on ?! 
+Via une annotation, bien sûr : @Component fera l’affaire.
+
+Modifions également du code existant :
+
+La classe HelloWorldApplication doit être complétée par un nouvel attribut
+ : “private BusinessService bs;”. Ce dernier sera annoté @Autowired.
+
+Ensuite, la méthode run doit être modifiée afin qu’elle contienne le 
+code suivant :
+
+HelloWorld hw = bs.getHelloWorld();
+
+System.out.println(hw);
+
+Tout d’abord, on récupère un objet HelloWorld grâce au BusinessService, puis 
+on transmet l’objet HelloWord à la méthode System.out.println. Lors de l’exécution
+ de cette dernière, la méthode toString() de l’objet HelloWorld sera appelée, 
+et le texte contenu dans l’attribut value s’affichera.
+
+Quelque chose m’échappe, l’attribut bs n’est jamais instancié dans ce code ; 
+comment se fait-il qu’on puisse l’utiliser ?
+
+C’est grâce à l’IoC container de Spring ! Rappelez-vous, je vous ai appris dans 
+la première partie le concept de l’injection de dépendances. En mettant 
+l’annotation @Autowired sur l’attribut bs, Spring va chercher au sein de son 
+contexte s’il existe un bean de type BusinessService. 
+
+✅ S’il le trouve, il va alors instancier la classe de ce bean et injecter cette
+ instance dans l’attribut. 
+
+❌ S’il ne trouve pas de bean de ce type, Spring génère une erreur.
+
+Résultat : nul besoin de gérer l’instanciation du BusinessService, Spring s’en
+ occupe pour nous. :-)
+
+
+
+////////////////////////////////////////////////////////////////////////
+Au sein d’une application Spring Boot, écrire du code implique de définir les beans
+ utilisés par Spring.
+
+On peut exécuter du code grâce à l’implémentation de l’interface CommandLineRunner 
+et de la méthode run.
+
+Pour qu’une classe soit déclarée en tant que bean, on l’annote @Component.
+
+Pour qu’un bean soit injecté dans un attribut, on annote l’attribut @Autowired.
+
+/////////////////////////////////////////////////////////////////////////
+Ajoutez une nouvelle méthode de test.
+
+Injectez une instance de BusinessService dans la classe de test.
+
+Vérifiez que l’attribut “value” de l’objet HelloWorld contient bien le texte “Hello World!”.
+
+Ensuite, il ne vous reste plus qu’à faire un clic droit sur la classe, “Run As”, “JUnit Test”.
+
+
+package com.openclassrooms.helloworld;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.openclassrooms.helloworld.service.BusinessService;
+
+@SpringBootTest
+class HelloworldApplicationTests {
+
+    @Autowired
+    private BusinessService bs;
+
+    @Test
+    void contextLoads() {
+    }
+
+    @Test
+    public void testGetHelloWorld() {
+
+        String expected = "Hello World!";
+
+        String result = bs.getHelloWorld().getValue();
+
+        assertEquals(expected, result);
+    }
+
+}
+
+
+Lignes 14/15 : j’injecte une instance de BusinessService dans un attribut nommé bs. À noter que sans l’annotation @SpringBootTest, cela échouera car sans contexte Spring, impossible de faire de l’injection de dépendances.
+
+Lignes 21/22 : j’écris ma méthode, sans oublier d’annoter @Test.
+
+Ligne 24 : je définis le résultat attendu pour la valeur “Hello World!”.
+
+Ligne 26 : je récupère, à travers l’instance du BusinessService, un objet HelloWorld, puis j’appelle la méthode getValue et affecte le résultat dans une variable nommée result.
+
+Ligne 28 : grâce à assertEquals, je compare les 2 variables. Si elles sont égales, le test
+ réussit, sinon il échoue.
+
+//////////////////////////////////////////////////////
+#Global configuration
+spring.application.name=api
+
+#Tomcat configuration
+server.port=9000
+
+#Log level configuration
+logging.level.root=ERROR
+logging.level.com.openclassrooms=INFO
+logging.level.org.springframework.boot.autoconfigure.h2=INFO
+logging.level.org.springframework.boot.web.embedded.tomcat=INFO
+
+#H2 Configuration
+spring.h2.console.enabled=true
+
+///////////////////////////////////////////////////////////////
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "employees")
+public class Employee {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name="first_name")
+    private String firstName;
+
+    @Column(name="last_name")
+    private String lastName;
+
+    private String mail;
+
+    private String password;
+
+}
+////////////////////////////////////////////////////////////////////
+package com.openclassrooms.api.repository;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import com.openclassrooms.api.model.Employee;
+
+@Repository
+public interface EmployeeRepository extends CrudRepository<Employee, Long> {
+
+}
+////////////////////////////////////////////////////////////
+package com.openclassrooms.api.service;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.openclassrooms.api.model.Employee;
+import com.openclassrooms.api.repository.EmployeeRepository;
+
+import lombok.Data;
+
+@Data
+@Service
+public class EmployeeService {
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    public Optional<Employee> getEmployee(final Long id) {
+        return employeeRepository.findById(id);
+    }
+
+    public Iterable<Employee> getEmployees() {
+        return employeeRepository.findAll();
+    }
+
+    public void deleteEmployee(final Long id) {
+        employeeRepository.deleteById(id);
+    }
+
+    public Employee saveEmployee(Employee employee) {
+        Employee savedEmployee = employeeRepository.save(employee);
+        return savedEmployee;
+    }
+
+}
+/////////////////////////////////////////////////////////////
+package com.openclassrooms.api.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.openclassrooms.api.model.Employee;
+import com.openclassrooms.api.service.EmployeeService;
+
+@RestController
+public class EmployeeController {
+
+    @Autowired
+    private EmployeeService employeeService;
+
+    /**
+    * Read - Get all employees
+    * @return - An Iterable object of Employee full filled
+    */
+    @GetMapping("/employees")
+    public Iterable<Employee> getEmployees() {
+        return employeeService.getEmployees();
+    }
+
+}
+hatembellaj

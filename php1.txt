@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> table game </title>
+        
+    </head>
+    <body>
+        <form action="form.php" method="post">
+            <label for="number">Insert a number </label>
+            <input type="text" id="number" name="number">
+            <input type="submit" value="+">
+        </form>
+    </body>
+</html>
+
+/// /// PH¨P
+<!DOCTYPE html>
+<html>
+<body>
+
+<?php
+echo $_POST["number"]."<br>";
+$number=$_POST["number"];
+$numArray=explode(",",$number);
+foreach ($numArray as $value) {
+    echo "//  string value".$value."    ";
+    $value=intval($value);
+    echo "inval after value".$value."  // <br>";
+}
+$sum=0;
+sort($numArray);
+foreach ($numArray as $value) {
+    echo "..".$value."<br>";
+    $sum=$sum+$value;
+}
+echo "la somme des nombres saisi : ".$sum;
+//var_dump($numArray);
+//echo "<br>".$numArray;
+?> 
+
+</body>
+</html>
